@@ -14,6 +14,7 @@ import org.dom4j.io.DocumentResult;
 
 import com.harvey.mybatis.parsing.DocumentReader;
 import com.harvey.mybatis.session.Configuration;
+import com.mysql.jdbc.StringUtils;
 
 /**
  * 
@@ -54,6 +55,28 @@ public class XMLConfigBuilder {
 		//解析全局配置文件中mappers标签
 		parseMappersElement(rootElement.element("mappers"));
 	}
+
+
+	//解析全局配置文件中mappers标签
+	private void parseMappersElement(Element element) {
+		//获取所有mappers标签内容
+		List<Element> mapperElements = element.elements("mapper");
+		for(Element mapperEle : mapperElements) {
+			parseMapperElement(mapperEle);
+		}
+	}
+
+
+
+	private void parseMapperElement(Element element) {
+		String resource = element.attributeValue("resource");
+		if(!StringUtils.isNullOrEmpty(resource)) {
+			InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(resource);
+			XMLMapperBuilder xmlMapperBuilder = new XMLMapperBuilder(configuration);
+			xmlMapperBuilder.parse(inputStream);
+		}
+	}
+
 
 
 	//解析全局配置文件中environments标签
