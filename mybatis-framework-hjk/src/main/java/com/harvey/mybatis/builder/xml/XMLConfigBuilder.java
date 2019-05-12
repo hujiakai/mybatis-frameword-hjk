@@ -1,16 +1,13 @@
 package com.harvey.mybatis.builder.xml;
 
 import java.io.InputStream;
-import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
-import javax.sql.DataSource;
 
 import org.apache.commons.dbcp.BasicDataSource;
 import org.dom4j.Document;
 import org.dom4j.Element;
-import org.dom4j.io.DocumentResult;
 
 import com.harvey.mybatis.parsing.DocumentReader;
 import com.harvey.mybatis.session.Configuration;
@@ -26,8 +23,8 @@ public class XMLConfigBuilder {
 	private Configuration configuration;
 	
 	
-	public XMLConfigBuilder(Configuration configuration) {
-		this.configuration = configuration;
+	public XMLConfigBuilder() {
+		this.configuration = new Configuration();
 	}
 
 
@@ -36,12 +33,8 @@ public class XMLConfigBuilder {
 		//创建document对象（全局配置文件）
 		DocumentReader documentReader = new DocumentReader();
 		Document document = documentReader.createDocument(inputStream);
-		
-		
 		//解析document，封装到configuration
 		parseConfiguration(document.getRootElement());
-		
-		
 		return configuration;
 	}
 
@@ -58,6 +51,7 @@ public class XMLConfigBuilder {
 
 
 	//解析全局配置文件中mappers标签
+	@SuppressWarnings("unchecked")
 	private void parseMappersElement(Element element) {
 		//获取所有mappers标签内容
 		List<Element> mapperElements = element.elements("mapper");
@@ -99,7 +93,7 @@ public class XMLConfigBuilder {
 	@SuppressWarnings("unchecked")
 	private void createDataSource(Element element) {
 		Element dataSourceElement = element.element("dataSource");
-		String dataSourceType = element.attributeValue("type");
+		String dataSourceType = dataSourceElement.attributeValue("type");
 		
 		Properties properties = new Properties();
 		List<Element> propertyElements = dataSourceElement.elements("property");
