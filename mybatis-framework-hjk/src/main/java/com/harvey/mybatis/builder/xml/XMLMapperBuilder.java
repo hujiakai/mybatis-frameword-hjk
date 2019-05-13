@@ -44,6 +44,7 @@ public class XMLMapperBuilder {
 	}
 
 	//解析mapper标签内容
+	@SuppressWarnings("unchecked")
 	private void parseMapperElement(Element rootElement) {
 		//获取命名空间
 		String namespace = rootElement.attributeValue("namespace");

@@ -20,6 +20,7 @@ public class PreparedStatementHandler implements StatementHandler {
 	
 	private Object parameterObject;
 	
+	@SuppressWarnings("serial")
 	private List<Class<?>> baiscDataTypeClasses = new ArrayList<Class<?>>() {
 		{
 			add(Integer.class);
