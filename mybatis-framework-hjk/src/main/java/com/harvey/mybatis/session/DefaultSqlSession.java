@@ -35,7 +35,7 @@ public class DefaultSqlSession implements SqlSession {
 
 	private <E> List<E> selectList(String statement, Object parameter) {
 		MappedStatement mappedStatement = configuration.getMappedStatements(statement);
-		return null;
+		return executor.Query(mappedStatement, parameter);
 	}
 
 }

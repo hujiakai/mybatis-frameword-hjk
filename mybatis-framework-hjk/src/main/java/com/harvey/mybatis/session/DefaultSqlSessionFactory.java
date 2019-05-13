@@ -19,6 +19,7 @@ public class DefaultSqlSessionFactory implements SqlSessionFactory {
 	}
 
 	private SqlSession openSqlSeesionFromDataSource() {
+		//默认用SimpleExecutor执行器, 可以根据全局配置文件去生成不同的执行器
 		Executor executor = new SimpleExecutor(configuration);
 		return new DefaultSqlSession(configuration, executor);
 	}
